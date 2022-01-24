@@ -44,18 +44,18 @@ namespace svg {
     }
 
     void polygon::translate(const point &t) {
-        for(auto i : points)
-            i = i.translate(t);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].translate(t);
     }
 
     void polygon::scale(const point &origin, int v) {
-        for(auto i : points)
-            i = i.scale(origin,v);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].scale(origin,v);
     }
 
     void polygon::rotate(const point &origin, int v) {
-        for(auto i : points)
-            i = i.rotate(origin, v);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].rotate(origin,v);
     }
 
     shape *polygon::duplicate() const {
@@ -84,18 +84,18 @@ namespace svg {
     }
 
     void polyline::translate(const point &t) {
-        for(auto i : points)
-            i = i.translate(t);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].translate(t);
     }
 
     void polyline::scale(const point &origin, int v) {
-        for(auto i : points)
-            i = i.scale(origin,v);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].scale(origin,v);
     }
 
     void polyline::rotate(const point &origin, int v) {
-        for(auto i : points)
-            i = i.rotate(origin, v);
+        for(int i =0; i<points.size();i++)
+            points[i] = points[i].rotate(origin,v);
     }
 
     shape *polyline::duplicate() const {
