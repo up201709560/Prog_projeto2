@@ -26,10 +26,32 @@ namespace svg {
         return new ellipse(get_color(), center, radius);
     }
 
-    circle::circle(const color &fill,
-                   const point &center,
-                   const point &radius) :
-                   ellipse(fill, center, radius) {
+    polygon::polygon(const color &fill,
+                     const std::vector<point> points) :
+                     shape(fill), points(points) {
 
+    }
+
+    void polygon::draw(png_image &img) const {
+        img.draw_polygon(points,get_color());
+    }
+
+    void polygon::translate(const point &t) {
+        for(auto i : points)
+            i = i.translate(t);
+    }
+
+    void polygon::scale(const point &origin, int v) {
+        for(auto i : points)
+            i = i.scale(origin,v);
+    }
+
+    void polygon::rotate(const point &origin, int v) {
+        for(auto i : points)
+            i = i.rotate(origin, v);
+    }
+
+    shape *polygon::duplicate() const {
+        return new polygon(get_color(), points);
     }
 }
