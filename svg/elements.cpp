@@ -26,6 +26,13 @@ namespace svg {
         return new ellipse(get_color(), center, radius);
     }
 
+    circle::circle(const color &fill,
+                   const point &center,
+                   const point &radius) :
+            ellipse(fill, center, radius) {
+
+    }
+
     polygon::polygon(const color &fill,
                      const std::vector<point> points) :
                      shape(fill), points(points) {
