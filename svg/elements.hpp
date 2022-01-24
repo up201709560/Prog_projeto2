@@ -18,7 +18,20 @@ namespace svg {
         shape *duplicate() const override;
     };
 
+    class circle : public ellipse{
+
+    };
+
     class polygon : public shape{
+    protected:
+        std::vector<point> points;
+    public:
+        polygon(const svg::color &fill, std::vector<point> points);
+        void draw(png_image &img) const override;
+        void translate(const point &t) override;
+        void scale(const point &origin, int v) override;
+        void rotate(const point &origin, int v) override;
+        shape *duplicate() const override;
 
     };
 
@@ -26,9 +39,7 @@ namespace svg {
 
     };
 
-    class circle : public ellipse{
 
-    };
 
     class rect : public polygon{
 

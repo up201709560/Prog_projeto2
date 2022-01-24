@@ -98,6 +98,13 @@ namespace svg {
     }
     // TODO other parsing functions for elements
 
+    polygon *parse_polygon(XMLElement *elem) {
+        std::vector<point> points;
+        parse_points(elem->Attribute("points"), points);
+        color fill = parse_color(elem->Attribute("fill"));
+        return new polygon(fill,points);
+    }
+
     // Loop for parsing shapes
     void parse_shapes(XMLElement *elem, std::vector<shape *> &shapes) {
         for (auto child_elem = elem->FirstChildElement();
@@ -108,7 +115,11 @@ namespace svg {
             // TODO complete
             if (type == "ellipse") {
                 s = parse_ellipse(child_elem);
-            } else {
+            } else if (type == "polygon"){
+                s = parse_polygon(child_elem);
+            }
+
+            else {
                 std::cout << "Unrecognized shape type: " << type << std::endl;
                 continue;
             }
