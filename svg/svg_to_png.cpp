@@ -149,6 +149,44 @@ namespace svg {
         return new rect(fill,points);
     }
 
+    /*
+        <polyline points="1,198 1,1 198,198 198,1"
+        fill="none" stroke="#0000ff"/>
+    */
+
+    polyline *parse_polyline(XMLElement *elem) {
+        std::vector<point> points;
+        color c;
+        parse_points(elem->Attribute("points"), points);
+        //color fill = parse_color(elem->Attribute("fill"));
+        color stroke = parse_color(elem->Attribute("stroke"));
+        return new polyline(c,points, stroke);
+    }
+
+    line *parse_line(XMLElement *elem) {
+        point aux;
+        std::vector<point> points;
+
+        /* <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <line x1="1" y1="198" x2="1" y2="1" stroke="red"/>
+    <line x1="1" y1="1" x2="198" y2="198" stroke="green"/>
+    <line x1="198" y1="198" x2="198" y2="1" stroke="blue"/>
+    </svg> */
+
+        int cx1 = elem->IntAttribute("x1");
+        int cy1 = elem->IntAttribute("y1");
+        int cx2 = elem->IntAttribute("x2");
+        int cy2 = elem->IntAttribute("y2");
+
+        point_helper(aux,cx1,cy1);
+        points.push_back(aux);
+        point_helper(aux,cx2,cy2);
+        points.push_back(aux);
+        color stroke = parse_color(elem->Attribute("stroke"));
+
+        return new line(points, stroke);
+    }
+
     // Loop for parsing shapes
     void parse_shapes(XMLElement *elem, std::vector<shape *> &shapes) {
         for (auto child_elem = elem->FirstChildElement();
@@ -165,6 +203,10 @@ namespace svg {
                 s = parse_polygon(child_elem);
             } else if (type == "rect") {
                 s = parse_rect(child_elem);
+            } else if (type == "polyline") {
+                s = parse_polyline(child_elem);
+            } else if (type == "line") {
+                s = parse_line(child_elem);
             }
 
             else {

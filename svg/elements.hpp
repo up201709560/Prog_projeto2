@@ -39,6 +39,16 @@ namespace svg {
     };
 
     class polyline : public shape{
+    protected:
+        std::vector<point> points;
+        color stroke;
+    public:
+        polyline(const svg::color &fill, std::vector<point> points, const svg::color &stroke);
+        void draw(png_image &img) const override;
+        void translate(const point &t) override;
+        void scale(const point &origin, int v) override;
+        void rotate(const point &origin, int v) override;
+        shape *duplicate() const override;
 
     };
 
@@ -51,6 +61,8 @@ namespace svg {
     };
 
     class line : public polyline{
+    public:
+        line(std::vector<point> points, const svg::color& stroke);
 
     };
 }
