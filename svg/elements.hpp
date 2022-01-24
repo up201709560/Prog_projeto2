@@ -18,6 +18,11 @@ namespace svg {
         shape *duplicate() const override;
     };
 
+    class circle : public ellipse{
+    public:
+        circle(const color &fill, const point &center, const point &radius);
+    };
+
     class polygon : public shape{
 
     };
@@ -26,9 +31,7 @@ namespace svg {
 
     };
 
-    class circle : public ellipse{
 
-    };
 
     class rect : public polygon{
 
