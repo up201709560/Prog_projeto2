@@ -45,6 +45,8 @@ namespace svg {
 
 
     class rect : public polygon{
+    public:
+        rect(const svg::color& fill, std::vector<point> points);
 
     };
 

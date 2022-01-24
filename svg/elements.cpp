@@ -61,4 +61,10 @@ namespace svg {
     shape *polygon::duplicate() const {
         return new polygon(get_color(), points);
     }
+
+    rect::rect(const color &fill,
+               std::vector<point> points) :
+               polygon(fill, points) {
+
+    }
 }

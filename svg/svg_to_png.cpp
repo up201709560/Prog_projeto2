@@ -113,6 +113,42 @@ namespace svg {
         return new polygon(fill,points);
     }
 
+    void point_helper(point& p, int x, int y){
+        p.x = x;
+        p.y = y;
+    }
+
+    polygon *parse_rect(XMLElement *elem) {
+        point aux;
+        std::vector<point> points;
+
+        /*
+        ponto 0:  ponto correspondente a (cx, cy)
+        ponto 1:  ponto correspondente a (cx + width - 1, cy)
+        ponto 2:  ponto correspondente a (cx + width - 1, cy + height - 1)
+        ponto 3:  ponto correspondente a (cx, cy + height - 1) */
+
+        int cx = elem->IntAttribute("x");
+        int cy = elem->IntAttribute("y");
+        int width = elem->IntAttribute("width");
+        int height = elem->IntAttribute("height");
+
+        point_helper(aux,cx,cy);
+        points.push_back(aux);
+
+        point_helper(aux,cx + width - 1, cy);
+        points.push_back(aux);
+
+        point_helper(aux,cx + width - 1, cy + height - 1);
+        points.push_back(aux);
+
+        point_helper(aux,cx, cy + height - 1);
+        points.push_back(aux);
+
+        color fill = parse_color(elem->Attribute("fill"));
+        return new rect(fill,points);
+    }
+
     // Loop for parsing shapes
     void parse_shapes(XMLElement *elem, std::vector<shape *> &shapes) {
         for (auto child_elem = elem->FirstChildElement();
@@ -127,6 +163,8 @@ namespace svg {
                 s = parse_circle(child_elem);
             } else if (type == "polygon") {
                 s = parse_polygon(child_elem);
+            } else if (type == "rect") {
+                s = parse_rect(child_elem);
             }
 
             else {
